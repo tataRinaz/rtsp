@@ -21,7 +21,7 @@ impl Builder {
     /// # use http::*;
     ///
     /// let uri = uri::Builder::new()
-    ///     .scheme("https")
+    ///     .scheme("rtsps")
     ///     .authority("hyper.rs")
     ///     .path_and_query("/")
     ///     .build()
@@ -40,7 +40,7 @@ impl Builder {
     /// # use http::*;
     ///
     /// let mut builder = uri::Builder::new();
-    /// builder.scheme("https");
+    /// builder.scheme("rtsps");
     /// ```
     pub fn scheme<T>(self, scheme: T) -> Self
     where

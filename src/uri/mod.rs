@@ -16,8 +16,8 @@
 //! assert_eq!(uri.query(), Some("baz"));
 //! assert_eq!(uri.host(), None);
 //!
-//! let uri = "https://www.rust-lang.org/install.html".parse::<Uri>().unwrap();
-//! assert_eq!(uri.scheme_str(), Some("https"));
+//! let uri = "rtsps://www.rust-lang.org/install.html".parse::<Uri>().unwrap();
+//! assert_eq!(uri.scheme_str(), Some("rtsps"));
 //! assert_eq!(uri.host(), Some("www.rust-lang.org"));
 //! assert_eq!(uri.path(), "/install.html");
 //! ```
@@ -87,8 +87,8 @@ mod tests;
 /// assert_eq!(uri.query(), Some("baz"));
 /// assert_eq!(uri.host(), None);
 ///
-/// let uri = "https://www.rust-lang.org/install.html".parse::<Uri>().unwrap();
-/// assert_eq!(uri.scheme_str(), Some("https"));
+/// let uri = "rtsps://www.rust-lang.org/install.html".parse::<Uri>().unwrap();
+/// assert_eq!(uri.scheme_str(), Some("rtsps"));
 /// assert_eq!(uri.host(), Some("www.rust-lang.org"));
 /// assert_eq!(uri.path(), "/install.html");
 /// ```
@@ -191,7 +191,7 @@ impl Uri {
     /// use http::Uri;
     ///
     /// let uri = Uri::builder()
-    ///     .scheme("https")
+    ///     .scheme("rtsps")
     ///     .authority("hyper.rs")
     ///     .path_and_query("/")
     ///     .build()
@@ -320,7 +320,7 @@ impl Uri {
     ///
     /// ```
     /// # use http::uri::Uri;
-    /// let uri = Uri::from_static("http://example.com/foo");
+    /// let uri = Uri::from_static("rtsp://example.com/foo");
     ///
     /// assert_eq!(uri.host().unwrap(), "example.com");
     /// assert_eq!(uri.path(), "/foo");
@@ -398,7 +398,7 @@ impl Uri {
     ///
     /// ```
     /// # use http::Uri;
-    /// let uri: Uri = "http://example.org/hello/world".parse().unwrap();
+    /// let uri: Uri = "rtsp://example.org/hello/world".parse().unwrap();
     ///
     /// assert_eq!(uri.path(), "/hello/world");
     /// ```
@@ -432,9 +432,9 @@ impl Uri {
     /// ```
     /// use http::uri::{Scheme, Uri};
     ///
-    /// let uri: Uri = "http://example.org/hello/world".parse().unwrap();
+    /// let uri: Uri = "rtsp://example.org/hello/world".parse().unwrap();
     ///
-    /// assert_eq!(uri.scheme(), Some(&Scheme::HTTP));
+    /// assert_eq!(uri.scheme(), Some(&Scheme::RTSP));
     /// ```
     ///
     ///
@@ -461,9 +461,9 @@ impl Uri {
     ///
     /// ```
     /// # use http::Uri;
-    /// let uri: Uri = "http://example.org/hello/world".parse().unwrap();
+    /// let uri: Uri = "rtsp://example.org/hello/world".parse().unwrap();
     ///
-    /// assert_eq!(uri.scheme_str(), Some("http"));
+    /// assert_eq!(uri.scheme_str(), Some("rtsp"));
     /// ```
     #[inline]
     pub fn scheme_str(&self) -> Option<&str> {
@@ -499,7 +499,7 @@ impl Uri {
     ///
     /// ```
     /// # use http::Uri;
-    /// let uri: Uri = "http://example.org:80/hello/world".parse().unwrap();
+    /// let uri: Uri = "rtsp://example.org:80/hello/world".parse().unwrap();
     ///
     /// assert_eq!(uri.authority().map(|a| a.as_str()), Some("example.org:80"));
     /// ```
@@ -541,7 +541,7 @@ impl Uri {
     ///
     /// ```
     /// # use http::Uri;
-    /// let uri: Uri = "http://example.org:80/hello/world".parse().unwrap();
+    /// let uri: Uri = "rtsp://example.org:80/hello/world".parse().unwrap();
     ///
     /// assert_eq!(uri.host(), Some("example.org"));
     /// ```
@@ -580,7 +580,7 @@ impl Uri {
     ///
     /// ```
     /// # use http::Uri;
-    /// let uri: Uri = "http://example.org:80/hello/world".parse().unwrap();
+    /// let uri: Uri = "rtsp://example.org:80/hello/world".parse().unwrap();
     ///
     /// let port = uri.port().unwrap();
     /// assert_eq!(port.as_u16(), 80);
@@ -590,7 +590,7 @@ impl Uri {
     ///
     /// ```
     /// # use http::Uri;
-    /// let uri: Uri = "http://example.org/hello/world".parse().unwrap();
+    /// let uri: Uri = "rtsp://example.org/hello/world".parse().unwrap();
     ///
     /// assert!(uri.port().is_none());
     /// ```
@@ -614,7 +614,7 @@ impl Uri {
     ///
     /// ```
     /// # use http::{Uri, uri::Port};
-    /// let uri: Uri = "http://example.org:80/hello/world".parse().unwrap();
+    /// let uri: Uri = "rtsp://example.org:80/hello/world".parse().unwrap();
     ///
     /// assert_eq!(uri.port_u16(), Some(80));
     /// ```
@@ -643,7 +643,7 @@ impl Uri {
     ///
     /// ```
     /// # use http::Uri;
-    /// let uri: Uri = "http://example.org/hello/world?key=value".parse().unwrap();
+    /// let uri: Uri = "rtsp://example.org/hello/world?key=value".parse().unwrap();
     ///
     /// assert_eq!(uri.query(), Some("key=value"));
     /// ```
@@ -753,13 +753,13 @@ impl<'a> TryFrom<&'a Uri> for Uri {
 /// ```
 /// # use http::uri::*;
 /// let mut parts = Parts::default();
-/// parts.scheme = Some("http".parse().unwrap());
+/// parts.scheme = Some("rtsp".parse().unwrap());
 /// parts.authority = Some("foo.com".parse().unwrap());
 /// parts.path_and_query = Some("/foo".parse().unwrap());
 ///
 /// let uri = Uri::from_parts(parts).unwrap();
 ///
-/// assert_eq!(uri.scheme().unwrap().as_str(), "http");
+/// assert_eq!(uri.scheme().unwrap().as_str(), "rtsp");
 /// assert_eq!(uri.authority().unwrap(), "foo.com");
 /// assert_eq!(uri.path(), "/foo");
 /// ```

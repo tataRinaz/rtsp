@@ -1,8 +1,8 @@
-//! HTTP request types.
+//! RTSP request types.
 //!
-//! This module contains structs related to HTTP requests, notably the
+//! This module contains structs related to RTSP requests, notably the
 //! `Request` type itself as well as a builder to create requests. Typically
-//! you'll import the `http::Request` type rather than reaching into this
+//! you'll import the `RTSP::Request` type rather than reaching into this
 //! module itself.
 //!
 //! # Examples
@@ -13,7 +13,7 @@
 //! use http::{Request, Response};
 //!
 //! let mut request = Request::builder()
-//!     .uri("https://www.rust-lang.org/")
+//!     .uri("rtsps://www.rust-lang.org/")
 //!     .header("User-Agent", "my-awesome-agent/1.0");
 //!
 //! if needs_awesome_header() {
@@ -61,10 +61,10 @@ use crate::method::Method;
 use crate::version::Version;
 use crate::{Extensions, Result, Uri};
 
-/// Represents an HTTP request.
+/// Represents an RTSP request.
 ///
-/// An HTTP request consists of a head and a potentially optional body. The body
-/// component is generic, enabling arbitrary types to represent the HTTP body.
+/// An RTSP request consists of a head and a potentially optional body. The body
+/// component is generic, enabling arbitrary types to represent the RTSP body.
 /// For example, the body could be `Vec<u8>`, a `Stream` of byte chunks, or a
 /// value that has been deserialized.
 ///
@@ -76,7 +76,7 @@ use crate::{Extensions, Result, Uri};
 /// use http::{Request, Response};
 ///
 /// let mut request = Request::builder()
-///     .uri("https://www.rust-lang.org/")
+///     .uri("rtsps://www.rust-lang.org/")
 ///     .header("User-Agent", "my-awesome-agent/1.0");
 ///
 /// if needs_awesome_header() {
@@ -159,9 +159,9 @@ pub struct Request<T> {
     body: T,
 }
 
-/// Component parts of an HTTP `Request`
+/// Component parts of an RTSP `Request`
 ///
-/// The HTTP request head consists of a method, uri, version, and a set of
+/// The RTSP request head consists of a method, uri, version, and a set of
 /// header fields.
 pub struct Parts {
     /// The request's method
@@ -182,7 +182,7 @@ pub struct Parts {
     _priv: (),
 }
 
-/// An HTTP request builder
+/// An RTSP request builder
 ///
 /// This type can be used to construct an instance or `Request`
 /// through a builder-like pattern.
@@ -203,7 +203,7 @@ impl Request<()> {
     /// # use http::*;
     /// let request = Request::builder()
     ///     .method("GET")
-    ///     .uri("https://www.rust-lang.org/")
+    ///     .uri("rtsps://www.rust-lang.org/")
     ///     .header("X-Custom-Foo", "Bar")
     ///     .body(())
     ///     .unwrap();
@@ -213,7 +213,7 @@ impl Request<()> {
         Builder::new()
     }
 
-    /// Creates a new `Builder` initialized with a GET method and the given URI.
+    /// Creates a new `Builder` initialized with a DESCRIBE method and the given URI.
     ///
     /// This method returns an instance of `Builder` which can be used to
     /// create a `Request`.
@@ -223,20 +223,20 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::get("https://www.rust-lang.org/")
+    /// let request = Request::describe("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
-    pub fn get<T>(uri: T) -> Builder
+    pub fn describe<T>(uri: T) -> Builder
     where
         Uri: TryFrom<T>,
         <Uri as TryFrom<T>>::Error: Into<crate::Error>,
 
     {
-        Builder::new().method(Method::GET).uri(uri)
+        Builder::new().method(Method::DESCRIBE).uri(uri)
     }
 
-    /// Creates a new `Builder` initialized with a PUT method and the given URI.
+    /// Creates a new `Builder` initialized with a ANNOUNCE method and the given URI.
     ///
     /// This method returns an instance of `Builder` which can be used to
     /// create a `Request`.
@@ -246,20 +246,20 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::put("https://www.rust-lang.org/")
+    /// let request = Request::announce("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
-    pub fn put<T>(uri: T) -> Builder
+    pub fn announce<T>(uri: T) -> Builder
     where
         Uri: TryFrom<T>,
         <Uri as TryFrom<T>>::Error: Into<crate::Error>,
 
     {
-        Builder::new().method(Method::PUT).uri(uri)
+        Builder::new().method(Method::ANNOUNCE).uri(uri)
     }
 
-    /// Creates a new `Builder` initialized with a POST method and the given URI.
+    /// Creates a new `Builder` initialized with a GET_PARAMETER method and the given URI.
     ///
     /// This method returns an instance of `Builder` which can be used to
     /// create a `Request`.
@@ -269,40 +269,17 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::post("https://www.rust-lang.org/")
+    /// let request = Request::get_parameter("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
-    pub fn post<T>(uri: T) -> Builder
+    pub fn get_parameter<T>(uri: T) -> Builder
     where
         Uri: TryFrom<T>,
         <Uri as TryFrom<T>>::Error: Into<crate::Error>,
 
     {
-        Builder::new().method(Method::POST).uri(uri)
-    }
-
-    /// Creates a new `Builder` initialized with a DELETE method and the given URI.
-    ///
-    /// This method returns an instance of `Builder` which can be used to
-    /// create a `Request`.
-    ///
-    /// # Example
-    ///
-    /// ```
-    /// # use http::*;
-    ///
-    /// let request = Request::delete("https://www.rust-lang.org/")
-    ///     .body(())
-    ///     .unwrap();
-    /// ```
-    pub fn delete<T>(uri: T) -> Builder
-    where
-        Uri: TryFrom<T>,
-        <Uri as TryFrom<T>>::Error: Into<crate::Error>,
-
-    {
-        Builder::new().method(Method::DELETE).uri(uri)
+        Builder::new().method(Method::GET_PARAMETER).uri(uri)
     }
 
     /// Creates a new `Builder` initialized with an OPTIONS method and the given URI.
@@ -315,7 +292,7 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::options("https://www.rust-lang.org/")
+    /// let request = Request::options("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// # assert_eq!(*request.method(), Method::OPTIONS);
@@ -329,7 +306,7 @@ impl Request<()> {
         Builder::new().method(Method::OPTIONS).uri(uri)
     }
 
-    /// Creates a new `Builder` initialized with a HEAD method and the given URI.
+    /// Creates a new `Builder` initialized with a PAUSE method and the given URI.
     ///
     /// This method returns an instance of `Builder` which can be used to
     /// create a `Request`.
@@ -339,20 +316,20 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::head("https://www.rust-lang.org/")
+    /// let request = Request::pause("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
-    pub fn head<T>(uri: T) -> Builder
+    pub fn pause<T>(uri: T) -> Builder
     where
         Uri: TryFrom<T>,
         <Uri as TryFrom<T>>::Error: Into<crate::Error>,
 
     {
-        Builder::new().method(Method::HEAD).uri(uri)
+        Builder::new().method(Method::PAUSE).uri(uri)
     }
 
-    /// Creates a new `Builder` initialized with a CONNECT method and the given URI.
+    /// Creates a new `Builder` initialized with a PLAY method and the given URI.
     ///
     /// This method returns an instance of `Builder` which can be used to
     /// create a `Request`.
@@ -362,20 +339,20 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::connect("https://www.rust-lang.org/")
+    /// let request = Request::play("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
-    pub fn connect<T>(uri: T) -> Builder
+    pub fn play<T>(uri: T) -> Builder
     where
         Uri: TryFrom<T>,
         <Uri as TryFrom<T>>::Error: Into<crate::Error>,
 
     {
-        Builder::new().method(Method::CONNECT).uri(uri)
+        Builder::new().method(Method::PLAY).uri(uri)
     }
 
-    /// Creates a new `Builder` initialized with a PATCH method and the given URI.
+    /// Creates a new `Builder` initialized with a RECORD method and the given URI.
     ///
     /// This method returns an instance of `Builder` which can be used to
     /// create a `Request`.
@@ -385,19 +362,20 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::patch("https://www.rust-lang.org/")
+    /// let request = Request::record("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
-    pub fn patch<T>(uri: T) -> Builder
+    pub fn record<T>(uri: T) -> Builder
     where
         Uri: TryFrom<T>,
         <Uri as TryFrom<T>>::Error: Into<crate::Error>,
+
     {
-        Builder::new().method(Method::PATCH).uri(uri)
+        Builder::new().method(Method::RECORD).uri(uri)
     }
 
-    /// Creates a new `Builder` initialized with a TRACE method and the given URI.
+    /// Creates a new `Builder` initialized with a REDIRECT method and the given URI.
     ///
     /// This method returns an instance of `Builder` which can be used to
     /// create a `Request`.
@@ -407,16 +385,82 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::trace("https://www.rust-lang.org/")
+    /// let request = Request::redirect("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
-    pub fn trace<T>(uri: T) -> Builder
+    pub fn redirect<T>(uri: T) -> Builder
     where
         Uri: TryFrom<T>,
         <Uri as TryFrom<T>>::Error: Into<crate::Error>,
     {
-        Builder::new().method(Method::TRACE).uri(uri)
+        Builder::new().method(Method::REDIRECT).uri(uri)
+    }
+
+    /// Creates a new `Builder` initialized with a SETUP method and the given URI.
+    ///
+    /// This method returns an instance of `Builder` which can be used to
+    /// create a `Request`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use http::*;
+    ///
+    /// let request = Request::setup("rtsps://www.rust-lang.org/")
+    ///     .body(())
+    ///     .unwrap();
+    /// ```
+    pub fn setup<T>(uri: T) -> Builder
+    where
+        Uri: TryFrom<T>,
+        <Uri as TryFrom<T>>::Error: Into<crate::Error>,
+    {
+        Builder::new().method(Method::SETUP).uri(uri)
+    }
+
+    /// Creates a new `Builder` initialized with a SET_PARAMETER method and the given URI.
+    ///
+    /// This method returns an instance of `Builder` which can be used to
+    /// create a `Request`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use http::*;
+    ///
+    /// let request = Request::set_parameter("rtsps://www.rust-lang.org/")
+    ///     .body(())
+    ///     .unwrap();
+    /// ```
+    pub fn set_parameter<T>(uri: T) -> Builder
+    where
+        Uri: TryFrom<T>,
+        <Uri as TryFrom<T>>::Error: Into<crate::Error>,
+    {
+        Builder::new().method(Method::SET_PARAMETER).uri(uri)
+    }
+
+        /// Creates a new `Builder` initialized with a TEARDOWN method and the given URI.
+    ///
+    /// This method returns an instance of `Builder` which can be used to
+    /// create a `Request`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use http::*;
+    ///
+    /// let request = Request::teardown("rtsps://www.rust-lang.org/")
+    ///     .body(())
+    ///     .unwrap();
+    /// ```
+    pub fn teardown<T>(uri: T) -> Builder
+    where
+        Uri: TryFrom<T>,
+        <Uri as TryFrom<T>>::Error: Into<crate::Error>,
+    {
+        Builder::new().method(Method::TEARDOWN).uri(uri)
     }
 }
 
@@ -432,7 +476,7 @@ impl<T> Request<T> {
     /// # use http::*;
     /// let request = Request::new("hello world");
     ///
-    /// assert_eq!(*request.method(), Method::GET);
+    /// assert_eq!(*request.method(), Method::DESCRIBE);
     /// assert_eq!(*request.body(), "hello world");
     /// ```
     #[inline]
@@ -451,7 +495,7 @@ impl<T> Request<T> {
     /// # use http::*;
     /// let request = Request::new("hello world");
     /// let (mut parts, body) = request.into_parts();
-    /// parts.method = Method::POST;
+    /// parts.method = Method::TEARDOWN;
     ///
     /// let request = Request::from_parts(parts, body);
     /// ```
@@ -463,29 +507,29 @@ impl<T> Request<T> {
         }
     }
 
-    /// Returns a reference to the associated HTTP method.
+    /// Returns a reference to the associated RTSP method.
     ///
     /// # Examples
     ///
     /// ```
     /// # use http::*;
     /// let request: Request<()> = Request::default();
-    /// assert_eq!(*request.method(), Method::GET);
+    /// assert_eq!(*request.method(), Method::DESCRIBE);
     /// ```
     #[inline]
     pub fn method(&self) -> &Method {
         &self.head.method
     }
 
-    /// Returns a mutable reference to the associated HTTP method.
+    /// Returns a mutable reference to the associated RTSP method.
     ///
     /// # Examples
     ///
     /// ```
     /// # use http::*;
     /// let mut request: Request<()> = Request::default();
-    /// *request.method_mut() = Method::PUT;
-    /// assert_eq!(*request.method(), Method::PUT);
+    /// *request.method_mut() = Method::SET_PARAMETER;
+    /// assert_eq!(*request.method(), Method::SET_PARAMETER);
     /// ```
     #[inline]
     pub fn method_mut(&mut self) -> &mut Method {
@@ -528,7 +572,7 @@ impl<T> Request<T> {
     /// ```
     /// # use http::*;
     /// let request: Request<()> = Request::default();
-    /// assert_eq!(request.version(), Version::HTTP_11);
+    /// assert_eq!(request.version(), Version::RTSP_10);
     /// ```
     #[inline]
     pub fn version(&self) -> Version {
@@ -542,8 +586,8 @@ impl<T> Request<T> {
     /// ```
     /// # use http::*;
     /// let mut request: Request<()> = Request::default();
-    /// *request.version_mut() = Version::HTTP_2;
-    /// assert_eq!(request.version(), Version::HTTP_2);
+    /// *request.version_mut() = Version::RTSP_20;
+    /// assert_eq!(request.version(), Version::RTSP_20);
     /// ```
     #[inline]
     pub fn version_mut(&mut self) -> &mut Version {
@@ -610,7 +654,7 @@ impl<T> Request<T> {
         &mut self.head.extensions
     }
 
-    /// Returns a reference to the associated HTTP body.
+    /// Returns a reference to the associated RTSP body.
     ///
     /// # Examples
     ///
@@ -624,7 +668,7 @@ impl<T> Request<T> {
         &self.body
     }
 
-    /// Returns a mutable reference to the associated HTTP body.
+    /// Returns a mutable reference to the associated RTSP body.
     ///
     /// # Examples
     ///
@@ -662,7 +706,7 @@ impl<T> Request<T> {
     /// # use http::*;
     /// let request = Request::new(());
     /// let (parts, body) = request.into_parts();
-    /// assert_eq!(parts.method, Method::GET);
+    /// assert_eq!(parts.method, Method::DESCRIBE);
     /// ```
     #[inline]
     pub fn into_parts(self) -> (Parts, T) {
@@ -750,7 +794,7 @@ impl Builder {
     /// # use http::*;
     ///
     /// let req = request::Builder::new()
-    ///     .method("POST")
+    ///     .method("DESCRIBE")
     ///     .body(())
     ///     .unwrap();
     /// ```
@@ -759,9 +803,9 @@ impl Builder {
         Builder::default()
     }
 
-    /// Set the HTTP method for this request.
+    /// Set the RTSP method for this request.
     ///
-    /// This function will configure the HTTP method of the `Request` that will
+    /// This function will configure the RTSP method of the `Request` that will
     /// be returned from `Builder::build`.
     ///
     /// By default this is `GET`.
@@ -772,7 +816,7 @@ impl Builder {
     /// # use http::*;
     ///
     /// let req = Request::builder()
-    ///     .method("POST")
+    ///     .method("DESCRIBE")
     ///     .body(())
     ///     .unwrap();
     /// ```
@@ -788,7 +832,7 @@ impl Builder {
         })
     }
 
-    /// Get the HTTP Method for this request.
+    /// Get the RTSP Method for this request.
     ///
     /// By default this is `GET`. If builder has error, returns None.
     ///
@@ -798,10 +842,10 @@ impl Builder {
     /// # use http::*;
     ///
     /// let mut req = Request::builder();
-    /// assert_eq!(req.method_ref(),Some(&Method::GET));
+    /// assert_eq!(req.method_ref(),Some(&Method::DESCRIBE));
     ///
-    /// req = req.method("POST");
-    /// assert_eq!(req.method_ref(),Some(&Method::POST));
+    /// req = req.method("OPTIONS");
+    /// assert_eq!(req.method_ref(),Some(&Method::OPTIONS));
     /// ```
     pub fn method_ref(&self) -> Option<&Method> {
         self.inner.as_ref().ok().map(|h| &h.method)
@@ -820,7 +864,7 @@ impl Builder {
     /// # use http::*;
     ///
     /// let req = Request::builder()
-    ///     .uri("https://www.rust-lang.org/")
+    ///     .uri("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
@@ -847,19 +891,19 @@ impl Builder {
     /// let mut req = Request::builder();
     /// assert_eq!(req.uri_ref().unwrap(), "/" );
     ///
-    /// req = req.uri("https://www.rust-lang.org/");
-    /// assert_eq!(req.uri_ref().unwrap(), "https://www.rust-lang.org/" );
+    /// req = req.uri("rtsps://www.rust-lang.org/");
+    /// assert_eq!(req.uri_ref().unwrap(), "rtsps://www.rust-lang.org/" );
     /// ```
     pub fn uri_ref(&self) -> Option<&Uri> {
         self.inner.as_ref().ok().map(|h| &h.uri)
     }
 
-    /// Set the HTTP version for this request.
+    /// Set the RTSP version for this request.
     ///
-    /// This function will configure the HTTP version of the `Request` that
+    /// This function will configure the RTSP version of the `Request` that
     /// will be returned from `Builder::build`.
     ///
-    /// By default this is HTTP/1.1
+    /// By default this is RTSP/1.1
     ///
     /// # Examples
     ///
@@ -867,7 +911,7 @@ impl Builder {
     /// # use http::*;
     ///
     /// let req = Request::builder()
-    ///     .version(Version::HTTP_2)
+    ///     .version(Version::RTSP_20)
     ///     .body(())
     ///     .unwrap();
     /// ```

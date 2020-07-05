@@ -68,10 +68,10 @@ test_parse! {
 
 test_parse! {
     test_uri_parse_absolute_form,
-    "http://127.0.0.1:61761/chunks",
+    "rtsp://127.0.0.1:61761/chunks",
     [],
 
-    scheme = part!("http"),
+    scheme = part!("rtsp"),
     authority = part!("127.0.0.1:61761"),
     path = "/chunks",
     query = None,
@@ -81,10 +81,10 @@ test_parse! {
 
 test_parse! {
     test_uri_parse_absolute_form_without_path,
-    "https://127.0.0.1:61761",
-    ["https://127.0.0.1:61761/"],
+    "rtsps://127.0.0.1:61761",
+    ["rtsps://127.0.0.1:61761/"],
 
-    scheme = part!("https"),
+    scheme = part!("rtsps"),
     authority = part!("127.0.0.1:61761"),
     path = "/",
     query = None,
@@ -144,11 +144,11 @@ test_parse! {
 }
 
 test_parse! {
-    test_uri_parse_absolute_with_default_port_http,
-    "http://127.0.0.1:80",
-    ["http://127.0.0.1:80/"],
+    test_uri_parse_absolute_with_default_port_rtsp,
+    "rtsp://127.0.0.1:80",
+    ["rtsp://127.0.0.1:80/"],
 
-    scheme = part!("http"),
+    scheme = part!("rtsp"),
     authority = part!("127.0.0.1:80"),
     host = Some("127.0.0.1"),
     path = "/",
@@ -157,11 +157,11 @@ test_parse! {
 }
 
 test_parse! {
-    test_uri_parse_absolute_with_default_port_https,
-    "https://127.0.0.1:443",
-    ["https://127.0.0.1:443/"],
+    test_uri_parse_absolute_with_default_port_rtsps,
+    "rtsps://127.0.0.1:443",
+    ["rtsps://127.0.0.1:443/"],
 
-    scheme = part!("https"),
+    scheme = part!("rtsps"),
     authority = part!("127.0.0.1:443"),
     host = Some("127.0.0.1"),
     path = "/",
@@ -171,10 +171,10 @@ test_parse! {
 
 test_parse! {
     test_uri_parse_fragment_questionmark,
-    "http://127.0.0.1/#?",
+    "rtsp://127.0.0.1/#?",
     [],
 
-    scheme = part!("http"),
+    scheme = part!("rtsp"),
     authority = part!("127.0.0.1"),
     host = Some("127.0.0.1"),
     path = "/",
@@ -184,10 +184,10 @@ test_parse! {
 
 test_parse! {
     test_uri_parse_path_with_terminating_questionmark,
-    "http://127.0.0.1/path?",
+    "rtsp://127.0.0.1/path?",
     [],
 
-    scheme = part!("http"),
+    scheme = part!("rtsp"),
     authority = part!("127.0.0.1"),
     path = "/path",
     query = Some(""),
@@ -196,10 +196,10 @@ test_parse! {
 
 test_parse! {
     test_uri_parse_absolute_form_with_empty_path_and_nonempty_query,
-    "http://127.0.0.1?foo=bar",
+    "rtsp://127.0.0.1?foo=bar",
     [],
 
-    scheme = part!("http"),
+    scheme = part!("rtsp"),
     authority = part!("127.0.0.1"),
     path = "/",
     query = Some("foo=bar"),
@@ -208,10 +208,10 @@ test_parse! {
 
 test_parse! {
     test_uri_parse_absolute_form_with_empty_path_and_fragment_with_slash,
-    "http://127.0.0.1#foo/bar",
+    "rtsp://127.0.0.1#foo/bar",
     [],
 
-    scheme = part!("http"),
+    scheme = part!("rtsp"),
     authority = part!("127.0.0.1"),
     path = "/",
     query = None,
@@ -220,10 +220,10 @@ test_parse! {
 
 test_parse! {
     test_uri_parse_absolute_form_with_empty_path_and_fragment_with_questionmark,
-    "http://127.0.0.1#foo?bar",
+    "rtsp://127.0.0.1#foo?bar",
     [],
 
-    scheme = part!("http"),
+    scheme = part!("rtsp"),
     authority = part!("127.0.0.1"),
     path = "/",
     query = None,
@@ -256,10 +256,10 @@ test_parse! {
 
 test_parse! {
     test_userinfo1,
-    "http://a:b@127.0.0.1:1234/",
+    "rtsp://a:b@127.0.0.1:1234/",
     [],
 
-    scheme = part!("http"),
+    scheme = part!("rtsp"),
     authority = part!("a:b@127.0.0.1:1234"),
     host = Some("127.0.0.1"),
     path = "/",
@@ -269,10 +269,10 @@ test_parse! {
 
 test_parse! {
     test_userinfo2,
-    "http://a:b@127.0.0.1/",
+    "rtsp://a:b@127.0.0.1/",
     [],
 
-    scheme = part!("http"),
+    scheme = part!("rtsp"),
     authority = part!("a:b@127.0.0.1"),
     host = Some("127.0.0.1"),
     path = "/",
@@ -282,10 +282,10 @@ test_parse! {
 
 test_parse! {
     test_userinfo3,
-    "http://a@127.0.0.1/",
+    "rtsp://a@127.0.0.1/",
     [],
 
-    scheme = part!("http"),
+    scheme = part!("rtsp"),
     authority = part!("a@127.0.0.1"),
     host = Some("127.0.0.1"),
     path = "/",
@@ -321,10 +321,10 @@ test_parse! {
 
 test_parse! {
     test_ipv6,
-    "http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]/",
+    "rtsp://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]/",
     [],
 
-    scheme = part!("http"),
+    scheme = part!("rtsp"),
     authority = part!("[2001:0db8:85a3:0000:0000:8a2e:0370:7334]"),
     host = Some("[2001:0db8:85a3:0000:0000:8a2e:0370:7334]"),
     path = "/",
@@ -334,10 +334,10 @@ test_parse! {
 
 test_parse! {
     test_ipv6_shorthand,
-    "http://[::1]/",
+    "rtsp://[::1]/",
     [],
 
-    scheme = part!("http"),
+    scheme = part!("rtsp"),
     authority = part!("[::1]"),
     host = Some("[::1]"),
     path = "/",
@@ -347,10 +347,10 @@ test_parse! {
 
 test_parse! {
     test_ipv6_shorthand2,
-    "http://[::]/",
+    "rtsp://[::]/",
     [],
 
-    scheme = part!("http"),
+    scheme = part!("rtsp"),
     authority = part!("[::]"),
     host = Some("[::]"),
     path = "/",
@@ -360,10 +360,10 @@ test_parse! {
 
 test_parse! {
     test_ipv6_shorthand3,
-    "http://[2001:db8::2:1]/",
+    "rtsp://[2001:db8::2:1]/",
     [],
 
-    scheme = part!("http"),
+    scheme = part!("rtsp"),
     authority = part!("[2001:db8::2:1]"),
     host = Some("[2001:db8::2:1]"),
     path = "/",
@@ -373,10 +373,10 @@ test_parse! {
 
 test_parse! {
     test_ipv6_with_port,
-    "http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]:8008/",
+    "rtsp://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]:8008/",
     [],
 
-    scheme = part!("http"),
+    scheme = part!("rtsp"),
     authority = part!("[2001:0db8:85a3:0000:0000:8a2e:0370:7334]:8008"),
     host = Some("[2001:0db8:85a3:0000:0000:8a2e:0370:7334]"),
     path = "/",
@@ -419,7 +419,7 @@ fn test_uri_parse_error() {
         Uri::from_str(s).unwrap_err();
     }
 
-    err("http://");
+    err("rtsp://");
     err("htt:p//host");
     err("hyper.rs/");
     err("hyper.rs?key=val");
@@ -427,11 +427,11 @@ fn test_uri_parse_error() {
     err("localhost/");
     err("localhost?key=val");
     err("\0");
-    err("http://[::1");
-    err("http://::1]");
+    err("rtsp://[::1");
+    err("rtsp://::1]");
     err("localhost:8080:3030");
     err("@");
-    err("http://username:password@/wut");
+    err("rtsp://username:password@/wut");
 
     // illegal queries
     err("/?foo\rbar");
@@ -443,7 +443,7 @@ fn test_uri_parse_error() {
 #[test]
 fn test_max_uri_len() {
     let mut uri = vec![];
-    uri.extend(b"http://localhost/");
+    uri.extend(b"rtsp://localhost/");
     uri.extend(vec![b'a'; 70 * 1024]);
 
     let uri = String::from_utf8(uri).unwrap();
@@ -482,10 +482,10 @@ fn test_uri_to_path_and_query() {
         ("/", "/"),
         ("/foo?bar", "/foo?bar"),
         ("/foo?bar#nope", "/foo?bar"),
-        ("http://hyper.rs", "/"),
-        ("http://hyper.rs/", "/"),
-        ("http://hyper.rs/path", "/path"),
-        ("http://hyper.rs?query", "/?query"),
+        ("rtsp://hyper.rs", "/"),
+        ("rtsp://hyper.rs/", "/"),
+        ("rtsp://hyper.rs/path", "/path"),
+        ("rtsp://hyper.rs?query", "/?query"),
         ("*", "*"),
     ];
 
