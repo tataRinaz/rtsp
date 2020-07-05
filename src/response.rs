@@ -47,7 +47,7 @@
 //! # panic!()
 //! }
 //!
-//! let response = get("https://www.rust-lang.org/").unwrap();
+//! let response = get("rtsps://www.rust-lang.org/").unwrap();
 //!
 //! if !response.status().is_success() {
 //!     panic!("failed to get a successful response status!");
@@ -123,7 +123,7 @@ use crate::{Extensions, Result};
 /// # panic!()
 /// }
 ///
-/// let response = get("https://www.rust-lang.org/").unwrap();
+/// let response = get("rtsps://www.rust-lang.org/").unwrap();
 ///
 /// if !response.status().is_success() {
 ///     panic!("failed to get a successful response status!");

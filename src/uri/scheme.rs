@@ -23,19 +23,19 @@ pub(super) enum Scheme2<T = Box<ByteStr>> {
 
 #[derive(Copy, Clone, Debug)]
 pub(super) enum Protocol {
-    Http,
-    Https,
+    Rtsp,
+    Rtsps,
 }
 
 impl Scheme {
-    /// HTTP protocol scheme
-    pub const HTTP: Scheme = Scheme {
-        inner: Scheme2::Standard(Protocol::Http),
+    /// RTSP protocol scheme
+    pub const RTSP: Scheme = Scheme {
+        inner: Scheme2::Standard(Protocol::Rtsp),
     };
 
-    /// HTTP protocol over TLS.
-    pub const HTTPS: Scheme = Scheme {
-        inner: Scheme2::Standard(Protocol::Https),
+    /// RTSP protocol over TLS.
+    pub const RTSPS: Scheme = Scheme {
+        inner: Scheme2::Standard(Protocol::Rtsps),
     };
 
     pub(super) fn empty() -> Self {
@@ -50,8 +50,8 @@ impl Scheme {
     ///
     /// ```
     /// # use http::uri::*;
-    /// let scheme: Scheme = "http".parse().unwrap();
-    /// assert_eq!(scheme.as_str(), "http");
+    /// let scheme: Scheme = "rtsp".parse().unwrap();
+    /// assert_eq!(scheme.as_str(), "rtsp");
     /// ```
     #[inline]
     pub fn as_str(&self) -> &str {
@@ -59,8 +59,8 @@ impl Scheme {
         use self::Scheme2::*;
 
         match self.inner {
-            Standard(Http) => "http",
-            Standard(Https) => "https",
+            Standard(Rtsp) => "rtsp",
+            Standard(Rtsps) => "rtsps",
             Other(ref v) => &v[..],
             None => unreachable!(),
         }
@@ -130,8 +130,8 @@ impl PartialEq for Scheme {
         use self::Scheme2::*;
 
         match (&self.inner, &other.inner) {
-            (&Standard(Http), &Standard(Http)) => true,
-            (&Standard(Https), &Standard(Https)) => true,
+            (&Standard(Rtsp), &Standard(Rtsp)) => true,
+            (&Standard(Rtsps), &Standard(Rtsps)) => true,
             (&Other(ref a), &Other(ref b)) => a.eq_ignore_ascii_case(b),
             (&None, _) | (_, &None) => unreachable!(),
             _ => false,
@@ -147,8 +147,8 @@ impl Eq for Scheme {}
 ///
 /// ```
 /// # use http::uri::Scheme;
-/// let scheme: Scheme = "HTTP".parse().unwrap();
-/// assert_eq!(scheme, *"http");
+/// let scheme: Scheme = "RTSP".parse().unwrap();
+/// assert_eq!(scheme, *"rtsp");
 /// ```
 impl PartialEq<str> for Scheme {
     fn eq(&self, other: &str) -> bool {
@@ -171,8 +171,8 @@ impl Hash for Scheme {
     {
         match self.inner {
             Scheme2::None => (),
-            Scheme2::Standard(Protocol::Http) => state.write_u8(1),
-            Scheme2::Standard(Protocol::Https) => state.write_u8(2),
+            Scheme2::Standard(Protocol::Rtsp) => state.write_u8(1),
+            Scheme2::Standard(Protocol::Rtsps) => state.write_u8(2),
             Scheme2::Other(ref other) => {
                 other.len().hash(state);
                 for &b in other.as_bytes() {
@@ -238,8 +238,8 @@ impl Scheme2<usize> {
     // Postcondition: On all Ok() returns, s is valid UTF-8
     fn parse_exact(s: &[u8]) -> Result<Scheme2<()>, InvalidUri> {
         match s {
-            b"http" => Ok(Protocol::Http.into()),
-            b"https" => Ok(Protocol::Https.into()),
+            b"rtsp" => Ok(Protocol::Rtsp.into()),
+            b"rtsps" => Ok(Protocol::Rtsps.into()),
             _ => {
                 if s.len() > MAX_SCHEME_LEN {
                     return Err(ErrorKind::SchemeTooLong.into());
@@ -267,17 +267,17 @@ impl Scheme2<usize> {
 
     pub(super) fn parse(s: &[u8]) -> Result<Scheme2<usize>, InvalidUri> {
         if s.len() >= 7 {
-            // Check for HTTP
-            if s[..7].eq_ignore_ascii_case(b"http://") {
+            // Check for RTSP
+            if s[..7].eq_ignore_ascii_case(b"rtsp://") {
                 // Prefix will be striped
-                return Ok(Protocol::Http.into());
+                return Ok(Protocol::Rtsp.into());
             }
         }
 
         if s.len() >= 8 {
-            // Check for HTTPs
-            if s[..8].eq_ignore_ascii_case(b"https://") {
-                return Ok(Protocol::Https.into());
+            // Check for RTSPs
+            if s[..8].eq_ignore_ascii_case(b"rtsps://") {
+                return Ok(Protocol::Rtsps.into());
             }
         }
 
@@ -318,8 +318,8 @@ impl Scheme2<usize> {
 impl Protocol {
     pub(super) fn len(&self) -> usize {
         match *self {
-            Protocol::Http => 4,
-            Protocol::Https => 5,
+            Protocol::Rtsp => 4,
+            Protocol::Rtsps => 5,
         }
     }
 }
@@ -343,8 +343,8 @@ mod test {
 
     #[test]
     fn scheme_eq_to_str() {
-        assert_eq!(&scheme("http"), "http");
-        assert_eq!(&scheme("https"), "https");
+        assert_eq!(&scheme("rtsp"), "rtsp");
+        assert_eq!(&scheme("rtsps"), "rtsps");
         assert_eq!(&scheme("ftp"), "ftp");
         assert_eq!(&scheme("my+funky+scheme"), "my+funky+scheme");
     }

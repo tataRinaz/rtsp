@@ -13,7 +13,7 @@
 //! use http::{Request, Response};
 //!
 //! let mut request = Request::builder()
-//!     .uri("RTSPs://www.rust-lang.org/")
+//!     .uri("rtsps://www.rust-lang.org/")
 //!     .header("User-Agent", "my-awesome-agent/1.0");
 //!
 //! if needs_awesome_header() {
@@ -76,7 +76,7 @@ use crate::{Extensions, Result, Uri};
 /// use http::{Request, Response};
 ///
 /// let mut request = Request::builder()
-///     .uri("RTSPs://www.rust-lang.org/")
+///     .uri("rtsps://www.rust-lang.org/")
 ///     .header("User-Agent", "my-awesome-agent/1.0");
 ///
 /// if needs_awesome_header() {
@@ -203,7 +203,7 @@ impl Request<()> {
     /// # use http::*;
     /// let request = Request::builder()
     ///     .method("GET")
-    ///     .uri("RTSPs://www.rust-lang.org/")
+    ///     .uri("rtsps://www.rust-lang.org/")
     ///     .header("X-Custom-Foo", "Bar")
     ///     .body(())
     ///     .unwrap();
@@ -223,7 +223,7 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::describe("RTSPs://www.rust-lang.org/")
+    /// let request = Request::describe("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
@@ -246,7 +246,7 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::announce("RTSPs://www.rust-lang.org/")
+    /// let request = Request::announce("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
@@ -269,7 +269,7 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::get_parameter("RTSPs://www.rust-lang.org/")
+    /// let request = Request::get_parameter("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
@@ -292,7 +292,7 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::options("RTSPs://www.rust-lang.org/")
+    /// let request = Request::options("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// # assert_eq!(*request.method(), Method::OPTIONS);
@@ -316,7 +316,7 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::pause("RTSPs://www.rust-lang.org/")
+    /// let request = Request::pause("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
@@ -339,7 +339,7 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::play("RTSPs://www.rust-lang.org/")
+    /// let request = Request::play("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
@@ -362,7 +362,7 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::record("RTSPs://www.rust-lang.org/")
+    /// let request = Request::record("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
@@ -385,7 +385,7 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::redirect("RTSPs://www.rust-lang.org/")
+    /// let request = Request::redirect("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
@@ -407,7 +407,7 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::setup("RTSPs://www.rust-lang.org/")
+    /// let request = Request::setup("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
@@ -419,7 +419,7 @@ impl Request<()> {
         Builder::new().method(Method::SETUP).uri(uri)
     }
 
-        /// Creates a new `Builder` initialized with a SET_PARAMETER method and the given URI.
+    /// Creates a new `Builder` initialized with a SET_PARAMETER method and the given URI.
     ///
     /// This method returns an instance of `Builder` which can be used to
     /// create a `Request`.
@@ -429,7 +429,7 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::set_parameter("RTSPs://www.rust-lang.org/")
+    /// let request = Request::set_parameter("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
@@ -451,7 +451,7 @@ impl Request<()> {
     /// ```
     /// # use http::*;
     ///
-    /// let request = Request::teardown("RTSPs://www.rust-lang.org/")
+    /// let request = Request::teardown("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
@@ -794,7 +794,7 @@ impl Builder {
     /// # use http::*;
     ///
     /// let req = request::Builder::new()
-    ///     .method("POST")
+    ///     .method("DESCRIBE")
     ///     .body(())
     ///     .unwrap();
     /// ```
@@ -816,7 +816,7 @@ impl Builder {
     /// # use http::*;
     ///
     /// let req = Request::builder()
-    ///     .method("POST")
+    ///     .method("DESCRIBE")
     ///     .body(())
     ///     .unwrap();
     /// ```
@@ -864,7 +864,7 @@ impl Builder {
     /// # use http::*;
     ///
     /// let req = Request::builder()
-    ///     .uri("RTSPs://www.rust-lang.org/")
+    ///     .uri("rtsps://www.rust-lang.org/")
     ///     .body(())
     ///     .unwrap();
     /// ```
@@ -891,8 +891,8 @@ impl Builder {
     /// let mut req = Request::builder();
     /// assert_eq!(req.uri_ref().unwrap(), "/" );
     ///
-    /// req = req.uri("RTSPs://www.rust-lang.org/");
-    /// assert_eq!(req.uri_ref().unwrap(), "RTSPs://www.rust-lang.org/" );
+    /// req = req.uri("rtsps://www.rust-lang.org/");
+    /// assert_eq!(req.uri_ref().unwrap(), "rtsps://www.rust-lang.org/" );
     /// ```
     pub fn uri_ref(&self) -> Option<&Uri> {
         self.inner.as_ref().ok().map(|h| &h.uri)

@@ -26,10 +26,10 @@ use std::fmt;
 pub struct Version(Rtsp);
 
 impl Version {
-    /// `HTTP/1.0`
+    /// `RTSP/1.0`
     pub const RTSP_10: Version = Version(Rtsp::Rtsp10);
 
-    /// `HTTP/1.1`
+    /// `RTSP/2.0`
     pub const RTSP_20: Version = Version(Rtsp::Rtsp20);
 
 }

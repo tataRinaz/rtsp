@@ -25,7 +25,7 @@ use std::str::FromStr;
 /// It allows status codes in the range [100, 599].
 ///
 /// IANA maintain the [Hypertext Transfer Protocol (HTTP) Status Code
-/// Registry](http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml) which is
+/// Registry](rtsp://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml) which is
 /// the source for this enum (with one exception, 418 I'm a teapot, which is
 /// inexplicably not in the register).
 ///
@@ -316,7 +316,7 @@ status_codes! {
     (300, MULTIPLE_CHOICES, "Multiple Choices");
     /// 301 Moved Permanently
     (301, MOVED_PERMANENTLY, "Moved Permanently");
-    /// 301 Moved Permanently
+    /// 302 Moved Temporarily
     (302, MOVED_TEMPORARILY, "Moved Temporarily");
     /// 302 Found
     (303, SEE_OTHER, "See Other");

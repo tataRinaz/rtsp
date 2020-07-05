@@ -143,16 +143,16 @@
 //!
 //! Each HTTP `Request` has an associated URI with it. This may just be a path
 //! like `/index.html` but it could also be an absolute URL such as
-//! `https://www.rust-lang.org/index.html`. A `URI` has a number of accessors to
+//! `rtsps://www.rust-lang.org/index.html`. A `URI` has a number of accessors to
 //! interpret it:
 //!
 //! ```
 //! use http::Uri;
 //! use http::uri::Scheme;
 //!
-//! let uri = "https://www.rust-lang.org/index.html".parse::<Uri>().unwrap();
+//! let uri = "rtsps://www.rust-lang.org/index.html".parse::<Uri>().unwrap();
 //!
-//! assert_eq!(uri.scheme(), Some(&Scheme::HTTPS));
+//! assert_eq!(uri.scheme(), Some(&Scheme::RTSPS));
 //! assert_eq!(uri.host(), Some("www.rust-lang.org"));
 //! assert_eq!(uri.path(), "/index.html");
 //! assert_eq!(uri.query(), None);
